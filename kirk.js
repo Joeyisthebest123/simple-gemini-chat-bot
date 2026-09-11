@@ -1,9 +1,9 @@
 import { GoogleGenAI } from "https://esm.run/@google/genai";
 import { marked } from "https://cdn.jsdelivr.net/npm/marked/lib/marked.esm.js";
 
-const API_KEY = 'API_KEY_HERE'; // Replace with your actual API key
-const ai = new GoogleGenAI({ apiKey: API_KEY });
+let API_KEY = 'API_KEY_HERE'; // Replace with your actual API key
 
+const apiInput = document.getElementById("api-key-input");
 const form = document.getElementById("input-form");
 const outputBox = document.getElementById("output-box");
 const input = document.getElementById("input");
@@ -16,6 +16,14 @@ form.addEventListener("submit", (event) => {
 
     run();
 });
+apiInput.addEventListener("keydown", function (event) {
+    if (event.key === "Enter") {
+      API_KEY = apiInput.value;
+      apiInput.value = '';
+    }
+});
+
+
 //check if enter is pressed and sumbit, stops new line 
 input.addEventListener("keydown", function (event) {
     if (event.key === "Enter") {
@@ -31,6 +39,7 @@ function trimHistory() {
 }
 
 async function run() {
+    const ai = new GoogleGenAI({ apiKey: API_KEY });
     const userInput = input.value.trim();
     if (!userInput) {
         input.disabled = false;
