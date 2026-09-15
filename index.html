@@ -10,33 +10,55 @@
 
 	<link rel="stylesheet" href="pretty.css">
 
-	<script defer type="module" src="kirk.js"></script>
+	<script type="module" src="supercode.js"></script>
 
 </head>
 
 <body>
 
-	<div class="screen">
-	
-	<input id="api-key-input" type="text"><input>
-	
+	<div class="screen-chat">
+
+
+
 		<div id="chat-box">
 			<div id="output-box"></div>
 
 			<div id="input-box">
-
 				<form id="input-form" type="text">
-					<textarea id="input" type="text" placeholder="The world awaits..." ></textarea>
+					<textarea id="input" type="text" placeholder="The world awaits..."></textarea>
 					` <button type="submit">Send</button>
 				</form>
-
-
 			</div>
 		</div>
 
+		<img src="settings img.jpg" id="settings-button" alt="settings">
 
 
+	</div>
 
+	<div class="screen-settings unactive">
+		<img src="back-button.jpg" id="chat-button" alt="back">
+
+		<label for="instructions-input">Instructions:</label>
+		<textarea id="instructions-input" type="text" placeholder="zero mistakes. answer good. think hard. "></textarea>
+		<br>
+		<br>
+		<input id="api-key-input" type="text">
+		<br>
+		<br>
+
+		<a href="https://ai.google.dev/gemini-api/docs/models" target="_blank">about models: click me!</a>
+		<form id="model-selection">
+			<label for="model-select">Select Model:</label>
+			<select id="model-select">
+
+				<option value="gemini-3.5-flash-lite">Gemini 3.5 Flash-Lite super fast reccomend</option>
+				<option value="gemini-3.8-flash" selected>Gemini 3.8 Flash smarter also good</option>
+				<option value="gemini-2.5-pro">Gemini 2.5 Pro thinks a lot harder</option>
+				<option value="gemini-3.1-pro-preview">Gemini 3.1 Pro super smart</option>
+
+			</select>
+		</form>
 	</div>
 
 </body>
