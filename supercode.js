@@ -1,13 +1,24 @@
 import { GoogleGenAI } from "https://esm.run/@google/genai";
 import { marked } from "https://cdn.jsdelivr.net/npm/marked/lib/marked.esm.js";
 
-let API_KEY = 'API_KEY_HERE'; // Replace with your actual API key
+let API_KEY = localStorage.getItem('apiKey') || 'API_KEY_HERE';
+
+const chatScreen = document.querySelector('.screen-chat');
+const settingsScreen = document.querySelector('.screen-settings');
 
 const apiInput = document.getElementById("api-key-input");
 const form = document.getElementById("input-form");
 const outputBox = document.getElementById("output-box");
 const input = document.getElementById("input");
+const instructionsInput = document.getElementById("instructions-input");
+const modelSelect = document.getElementById("model-select");
+const settingsButton = document.getElementById("settings-button");
+const chatButton = document.getElementById("chat-button");
+
 const userHistory = localStorage.getItem('userHistory') ? JSON.parse(localStorage.getItem('userHistory')) : [];
+
+instructionsInput.value = localStorage.getItem('instructions') || "balls in your court gemini. think smart and work well";
+modelSelect.value = localStorage.getItem('model') || "gemini-3.5-flash-lite";
 
 //when for is submited call run
 form.addEventListener("submit", (event) => {
@@ -16,13 +27,33 @@ form.addEventListener("submit", (event) => {
 
     run();
 });
+
+settingsButton.addEventListener('click', () => {
+    chatScreen.classList.toggle('unactive');
+    settingsScreen.classList.toggle('unactive');
+});
+
+chatButton.addEventListener('click', () => {
+    chatScreen.classList.toggle('unactive');
+    settingsScreen.classList.toggle('unactive');
+});
+
+modelSelect.addEventListener("change", function () {
+    localStorage.setItem('model', modelSelect.value);
+});
+
 apiInput.addEventListener("keydown", function (event) {
     if (event.key === "Enter") {
       API_KEY = apiInput.value;
       apiInput.value = '';
+      localStorage.setItem('apiKey', API_KEY);
     }
 });
 
+instructionsInput.addEventListener("keydown", function (event) {
+    localStorage.setItem('instructions', instructionsInput.value);
+     if (event.key === "Enter") {event.preventDefault();} 
+});
 
 //check if enter is pressed and sumbit, stops new line 
 input.addEventListener("keydown", function (event) {
@@ -62,10 +93,10 @@ async function run() {
     try {
         //get ouput
         const response = await ai.models.generateContent({
-            model: 'gemini-3.5-flash-lite',
+            model: modelSelect.value,
             contents: userHistory,
             config: {
-                systemInstruction: "talk like a cute cat girl. Be playful, flirty, and use cat-like expressions. Be very helpful and think about your responses",
+                systemInstruction: instructionsInput.value,
                 safetySettings: [
                     {
                         category: 'HARM_CATEGORY_HARASSMENT',
@@ -108,3 +139,4 @@ async function run() {
     localStorage.setItem('userHistory', JSON.stringify(userHistory))
     input.disabled = false;
 }
+
