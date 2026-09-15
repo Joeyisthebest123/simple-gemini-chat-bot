@@ -1,8 +1,23 @@
 @charset "UTF-8";
+.screen-chat {
+    display: flex;
+    flex-direction: row;
+}
+.screen-settings {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    height: 100vh;
+}
+
+#api-key-input {
+    width: 10px;
+    height: 10px;
+}
 
 
-
-.screen {}
 
 #chat-box {
     display: flex;
@@ -33,4 +48,32 @@
     border: 2px solid black;
     border-radius: 5px;
     overflow-y: auto;
+}
+
+
+#instructions-input {
+    width: 50vw;
+    height: 2vh;
+    padding: 10px;
+    font-size: 16px;
+    border: 2px solid black;
+    border-radius: 5px;
+    overflow-y: auto;
+}
+
+img {
+    width: 50px;
+    height: 50px;
+    z-index: 9999;
+    cursor: pointer;
+}
+img:active {
+    width: 45px;
+    height: 45px;
+    cursor: pointer;
+}
+
+
+.unactive {
+    display: none !important;
 }
