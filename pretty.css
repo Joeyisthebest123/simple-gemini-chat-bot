@@ -12,6 +12,23 @@
     height: 100vh;
 }
 
+.textBox{
+background-color: #C8DFDB;
+margin-top: 7px;
+margin-bottom: 7px;
+padding: 5px;
+width: fit-content;
+height: fit-content;
+border: 0px solid black;
+border-radius: 8px;
+}
+.right-align{
+max-width: 70%;
+justify-self: end;
+}
+
+
+
 #api-key-input {
     width: 10px;
     height: 10px;

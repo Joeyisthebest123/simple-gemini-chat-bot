@@ -1,6 +1,7 @@
 import { GoogleGenAI } from "https://esm.run/@google/genai";
 import { marked } from "https://cdn.jsdelivr.net/npm/marked/lib/marked.esm.js";
 
+
 let API_KEY = localStorage.getItem('apiKey') || 'API_KEY_HERE';
 
 const chatScreen = document.querySelector('.screen-chat');
@@ -14,11 +15,33 @@ const instructionsInput = document.getElementById("instructions-input");
 const modelSelect = document.getElementById("model-select");
 const settingsButton = document.getElementById("settings-button");
 const chatButton = document.getElementById("chat-button");
+const downloadBtn = document.getElementById('download-btn')
+const uploadHistoryBtn = document.getElementById('upload-history-btn')
 
 const userHistory = localStorage.getItem('userHistory') ? JSON.parse(localStorage.getItem('userHistory')) : [];
 
 instructionsInput.value = localStorage.getItem('instructions') || "balls in your court gemini. think smart and work well";
 modelSelect.value = localStorage.getItem('model') || "gemini-3.5-flash-lite";
+
+localStorage.removeItem('userHistory')
+
+const messages = [];
+const loadCount = Math.min(30, userHistory.length); // Only loop up to 30 or the total number of history items, whichever is smaller
+for (let i = 0; i < loadCount; i++){
+    const message = document.createElement('div');
+    message.classList.add('textBox');
+    if(i % 2 == 1){
+        message.classList.add('right-align');
+    }
+    // Safely pull from the end of the array backwards
+    const historyItem = userHistory[userHistory.length - 1 - i];
+    message.innerHTML = marked.parse(historyItem.parts[0].text);
+    outputBox.prepend(message);
+    MathJax.typesetPromise();
+}
+
+
+
 
 //when for is submited call run
 form.addEventListener("submit", (event) => {
@@ -27,6 +50,30 @@ form.addEventListener("submit", (event) => {
 
     run();
 });
+
+downloadBtn.addEventListener('click', () =>  {
+    alert('hello');
+    // 1. Convert the JSON array into a string format so the text file actually reads it
+    const historyString = JSON.stringify(userHistory, null, 2);
+
+    // 2. Pass the string inside an array to the Blob
+    const historyBlob = new Blob([historyString], {type: "text/plain"});
+    const url = URL.createObjectURL(historyBlob);
+
+    // 3. Fix the quotes around 'a'
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'neko Ai history.txt';
+
+    // 4. Append to body, click, and clean up
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+
+    URL.revokeObjectURL(url);
+});
+
+
 
 settingsButton.addEventListener('click', () => {
     chatScreen.classList.toggle('unactive');
@@ -52,10 +99,10 @@ apiInput.addEventListener("keydown", function (event) {
 
 instructionsInput.addEventListener("keydown", function (event) {
     localStorage.setItem('instructions', instructionsInput.value);
-     if (event.key === "Enter") {event.preventDefault();} 
+     if (event.key === "Enter") {event.preventDefault();}
 });
 
-//check if enter is pressed and sumbit, stops new line 
+//check if enter is pressed and sumbit, stops new line
 input.addEventListener("keydown", function (event) {
     if (event.key === "Enter") {
         event.preventDefault();  // Prevent newline
@@ -81,13 +128,19 @@ async function run() {
     userHistory.push({
         role: 'user',
         parts: [{ text: userInput }]
-
     });
+
+    const inputText = document.createElement("div");
+    inputText.innerHTML = marked.parse(userInput);
+    inputText.classList.add('textBox');
+    inputText.classList.add('right-align');
+    outputBox.appendChild(inputText);
 
 
     //make new div for output
     const output = document.createElement("div");
     output.textContent = 'thinking... wait peon';
+    output.classList.add('textBox');
     outputBox.appendChild(output);
 
     try {
@@ -97,6 +150,7 @@ async function run() {
             contents: userHistory,
             config: {
                 systemInstruction: instructionsInput.value,
+                tools: [{urlContext: {}}],
                 safetySettings: [
                     {
                         category: 'HARM_CATEGORY_HARASSMENT',
@@ -132,11 +186,12 @@ async function run() {
     catch (error) {
         console.error('Error:', error);
         output.textContent = error.message;
-
-
-
     }
     localStorage.setItem('userHistory', JSON.stringify(userHistory))
     input.disabled = false;
+
+    MathJax.typesetPromise();
+
 }
+
 

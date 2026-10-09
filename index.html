@@ -10,6 +10,7 @@
 
 	<link rel="stylesheet" href="pretty.css">
 
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
 	<script type="module" src="supercode.js"></script>
 
 </head>
@@ -21,10 +22,15 @@
 
 
 		<div id="chat-box">
-			<div id="output-box"></div>
+			<div id="output-box">
+
+
+
+            </div>
 
 			<div id="input-box">
 				<form id="input-form" type="text">
+                    <input id="file-input" type="file">
 					<textarea id="input" type="text" placeholder="The world awaits..."></textarea>
 					` <button type="submit">Send</button>
 				</form>
@@ -46,7 +52,8 @@
 		<input id="api-key-input" type="text">
 		<br>
 		<br>
-
+        <button id="download-btn"> download savedata </button>
+        <input type="file" id="upload-history-btn">
 		<a href="https://ai.google.dev/gemini-api/docs/models" target="_blank">about models: click me!</a>
 		<form id="model-selection">
 			<label for="model-select">Select Model:</label>
