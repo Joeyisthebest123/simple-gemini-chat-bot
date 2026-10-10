@@ -94,3 +94,7 @@ img:active {
 .unactive {
     display: none !important;
 }
+
+#settings-button {
+    margin-left: 25px;
+}

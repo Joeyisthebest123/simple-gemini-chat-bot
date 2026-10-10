@@ -23,8 +23,6 @@ const userHistory = localStorage.getItem('userHistory') ? JSON.parse(localStorag
 instructionsInput.value = localStorage.getItem('instructions') || "balls in your court gemini. think smart and work well";
 modelSelect.value = localStorage.getItem('model') || "gemini-3.5-flash-lite";
 
-localStorage.removeItem('userHistory')
-
 const messages = [];
 const loadCount = Math.min(30, userHistory.length); // Only loop up to 30 or the total number of history items, whichever is smaller
 for (let i = 0; i < loadCount; i++){
