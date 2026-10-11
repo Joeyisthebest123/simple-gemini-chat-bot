@@ -52,6 +52,7 @@ align-self: start;
     display: flex;
     flex-direction: column-reverse;
     overflow-y: auto;
+    overflow-x: hidden;
     border: 2px solid black;
     width: 80vw;
     height: 90vh;
