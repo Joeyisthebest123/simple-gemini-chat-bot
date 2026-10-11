@@ -17,8 +17,8 @@ background-color: #C8DFDB;
 margin-top: 7px;
 margin-bottom: 7px;
 padding: 5px;
-width: fit-content;
-height: fit-content;
+width: auto;
+height: auto;
 border: 0px solid black;
 border-radius: 8px;
 }
@@ -27,7 +27,9 @@ border-radius: 8px;
 max-width: 70%;
 align-self: end;
 }
-
+.left-align{
+align-self: start;
+}
 
 
 #api-key-input {
@@ -49,11 +51,11 @@ align-self: end;
     display: flex;
     flex-direction: column-reverse;
     overflow-y: auto;
+    overflow-x: hidden;
     border: 2px solid black;
     width: 80vw;
     height: 90vh;
     padding: 10px;
-
 }
 
 #input-box {

@@ -24,17 +24,18 @@ instructionsInput.value = localStorage.getItem('instructions') || "balls in your
 modelSelect.value = localStorage.getItem('model') || "gemini-3.5-flash-lite";
 
 const messages = [];
-const loadCount = Math.min(30, userHistory.length); // Only loop up to 30 or the total number of history items, whichever is smaller
-for (let i = 0; i < loadCount; i++){
+for (let i = 0; i < userHistory.length; i++){
     const message = document.createElement('div');
     message.classList.add('textBox');
-    if(i % 2 == 0){
+    if(userHistory[userHistory.length - 1 - i].role == 'user'){
         message.classList.add('right-align');
+    }else {
+         message.classList.add('left-align');
     }
     // Safely pull from the end of the array backwards
     const historyItem = userHistory[userHistory.length - 1 - i];
     message.innerHTML = marked.parse(historyItem.parts[0].text);
-    outputBox.prepend(message);
+    outputBox.append(message);
     MathJax.typesetPromise();
 }
 
@@ -132,14 +133,14 @@ async function run() {
     inputText.innerHTML = marked.parse(userInput);
     inputText.classList.add('textBox');
     inputText.classList.add('right-align');
-    outputBox.appendChild(inputText);
+    outputBox.prepend(inputText);
 
 
     //make new div for output
     const output = document.createElement("div");
     output.textContent = 'thinking... wait peon';
     output.classList.add('textBox');
-    outputBox.appendChild(output);
+    outputBox.prepend(output);
 
     try {
         //get ouput
@@ -174,7 +175,7 @@ async function run() {
         trimHistory();
         userHistory.push({
             role: 'model',
-            parts: [{ text: response.text }]
+            parts: [{ text: response.text}]
         });
 
         // display response in output box
