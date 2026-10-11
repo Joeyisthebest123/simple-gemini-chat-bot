@@ -22,9 +22,10 @@ height: fit-content;
 border: 0px solid black;
 border-radius: 8px;
 }
+
 .right-align{
 max-width: 70%;
-justify-self: end;
+align-self: end;
 }
 
 
@@ -45,6 +46,8 @@ justify-self: end;
 }
 
 #output-box {
+    display: flex;
+    flex-direction: column-reverse;
     overflow-y: auto;
     border: 2px solid black;
     width: 80vw;

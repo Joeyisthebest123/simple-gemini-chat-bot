@@ -28,7 +28,7 @@ const loadCount = Math.min(30, userHistory.length); // Only loop up to 30 or the
 for (let i = 0; i < loadCount; i++){
     const message = document.createElement('div');
     message.classList.add('textBox');
-    if(i % 2 == 1){
+    if(i % 2 == 0){
         message.classList.add('right-align');
     }
     // Safely pull from the end of the array backwards
