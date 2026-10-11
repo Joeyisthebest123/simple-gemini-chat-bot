@@ -141,6 +141,7 @@ async function run() {
     output.textContent = 'thinking... wait peon';
     output.classList.add('textBox');
     outputBox.prepend(output);
+    outputBox.scrollTop = 0;
 
     try {
         //get ouput
@@ -190,7 +191,6 @@ async function run() {
     input.disabled = false;
 
     MathJax.typesetPromise();
-
 }
 
 
